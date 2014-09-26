@@ -1,4 +1,4 @@
-// ака, прототинпое мултинаследование
+// sketch of idea of mutitple proto inheritance . Compiled it using tsc node compiler
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
