@@ -7,4 +7,4 @@ Not supposed for production or any realworld usage.
 
 -------
 
-Due to the thing that the bower downloading jq@2.x version, where,  I guess, fallbacks for supporting older browser (i.e IE<9) depricated, it has nothing for substitution of `.addEventListener()` , i.t `attachEvent()`, a polyfill should be used (in code, or I thought modernizr should solve dat)
+Due to the thing that the bower downloading [jq](jquery.com) version, where,  I guess, fallbacks for supporting older browser (i.e IE<9) depricated, it has nothing for substitution of `.addEventListener()` , i.t `attachEvent()`, a polyfill should be used (in code, or I thought modernizr should solve dat)
