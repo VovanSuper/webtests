@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPMG.Lib", "CoreTest\SPMG.L
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication", "WebApplication1\WebApplication.csproj", "{360F2BDD-1457-47A2-95EE-3082D814C25A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppHost", "WebAppHost\WebAppHost.csproj", "{D4B7BCCF-8ACA-402A-A799-E8378A331CDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{360F2BDD-1457-47A2-95EE-3082D814C25A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{360F2BDD-1457-47A2-95EE-3082D814C25A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{360F2BDD-1457-47A2-95EE-3082D814C25A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4B7BCCF-8ACA-402A-A799-E8378A331CDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4B7BCCF-8ACA-402A-A799-E8378A331CDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4B7BCCF-8ACA-402A-A799-E8378A331CDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4B7BCCF-8ACA-402A-A799-E8378A331CDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

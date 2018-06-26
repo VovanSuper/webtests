@@ -8,7 +8,8 @@ namespace WebAppHost
       static void Main(string[] args)
       {
          Console.WriteLine("Starting the server...");
-         Program1.MainStart();
+         WebProgram.MainStart();
+         Console.ReadLine();
       }
    }
 }

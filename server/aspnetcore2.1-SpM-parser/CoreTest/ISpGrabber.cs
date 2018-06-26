@@ -4,6 +4,6 @@ namespace CoreTest
 {
    public interface ISpGrabber
     {
-      IEnumerable<string> GetSportMasterPrices();
+      IEnumerable<int> GetSportMasterPrices();
     }
 }

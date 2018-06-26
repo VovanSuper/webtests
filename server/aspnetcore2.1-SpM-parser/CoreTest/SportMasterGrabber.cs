@@ -7,53 +7,78 @@ using HtmlAgilityPack.CssSelectors.NetCore;
 
 namespace CoreTest
 {
-   public class SportMasterGrabber: ISpGrabber
+   public class SportMasterGrabber : ISpGrabber
    {
+      private int[] res;
 
-      public IEnumerable<string> GetSportMasterPrices()
+      public IEnumerable<int> GetSportMasterPrices()
       {
          //Origin: https://www.sportmaster.ru
          //Referer: https://www.sportmaster.ru/catalog/muzhskaya_odezhda/shorty/?pageSize=120&page=2
          // Query: sortOrder=ASC&pageSize=120&sortBy=price
          //User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36
 
-         var baseAddr = "https://www.sportmaster.ru";
+         var baseSPMAddr = "https://www.sportmaster.ru";
+         var pageSize = 120;
          var muzOd = "muzhskaya_odezhda";
          var typeOd = "shorty";
-         var page = 1;
-         var pageSize = 120;
+         var pageNum = 1;
+         var shortsSPMAddr = $"{baseSPMAddr}/catalog/{muzOd}/{typeOd}/?sortOrder=ASC&pageSize={pageSize}" +
+            $"&page={pageNum}&sortBy=price";
 
-         var sportmasterUrl = new Uri($"{baseAddr}/catalog/{muzOd}/{typeOd}/?sortOrder=ASC&pageSize={pageSize}" +
-             $"&page={page}&sortBy=price");
+         var allPrices = new List<int>(pageSize);
+         var sportmasterUrl = new Uri(shortsSPMAddr);
 
          var client = new HttpClient();
          var parser = new HtmlDocument();
 
-         client.DefaultRequestHeaders.Referrer = new Uri(baseAddr);
+         client.DefaultRequestHeaders.Referrer = new Uri(baseSPMAddr);
          client.DefaultRequestHeaders.Add("Origin", sportmasterUrl.ToString());
          client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
 
-         var html = client.GetStringAsync(sportmasterUrl).Result;
+         while (true)
+         {
+            var nextUrl = ConstructSimpleUrlStirng(baseSPMAddr, muzOd, typeOd, pageSize, pageNum);
+            var pricesPerPage = GetPricesPerPage(parser, client, nextUrl);
+            if (pricesPerPage.Count() == 0)
+               break;
 
-         parser.LoadHtml(html);
-         var links = ExtractRealPriceValue(parser);
+            allPrices.AddRange(pricesPerPage);
+            Console.WriteLine("====");
+            Console.WriteLine($"Amount of Discounted Shorts at Page: {pageNum}");
+            Console.WriteLine(pricesPerPage.Count());
+            Console.WriteLine("======");
+            pageNum++;
+         }
 
-         Console.WriteLine("====");
-         Console.WriteLine("Amount of Shorts: ");
-         Console.WriteLine(links.Count());
-         Console.WriteLine("======");
-         return links;
+         return allPrices;
+
       }
 
-      private static IEnumerable<string> ExtractRealPriceValue(HtmlDocument document)
+      private IEnumerable<int> GetPricesPerPage(HtmlDocument parser, HttpClient client, Uri uri)
       {
-         return document.QuerySelectorAll(".sm-category__item ").AsParallel()
-             .Where(item => item.QuerySelectorAll(".smTileOldpriceBlock").SingleOrDefault() != null)
-             .Select(n => n.QuerySelectorAll("[data-price]").SingleOrDefault())
+         var html = client.GetStringAsync(uri).Result;
+         parser.LoadHtml(html);
+         var pricesPerCurrPage = ExtractRealPriceValue(parser);
+         return pricesPerCurrPage;
+      }
 
-             .Select(s => s.GetAttributeValue("data-price", String.Empty))
-             .OrderBy(price => int.Parse(price))
-             .Distinct();
+      private IEnumerable<int> ExtractRealPriceValue(HtmlDocument document) =>
+         document.QuerySelectorAll(".sm-category__item ").AsParallel()
+            .Where(item => item.QuerySelectorAll(".smTileOldpriceBlock").SingleOrDefault() != null)
+            .Select(n => n.QuerySelectorAll("[data-price]").SingleOrDefault())
+            .Select(s => s.GetAttributeValue("data-price", String.Empty))
+            .Select(priceStr => int.Parse(priceStr))
+            .OrderBy(price => price);
+            //.Distinct();
+
+
+      private Uri ConstructSimpleUrlStirng(string baseSPMAddr, string muzOd, string typeOd, int pageSize, int pageNum)
+      {
+         var locUri = $"{baseSPMAddr}/catalog/{muzOd}/{typeOd}/?sortOrder=ASC&pageSize={pageSize}" +
+            $"&page={pageNum}&sortBy=price";
+
+         return new Uri(locUri);
       }
    }
 }
