@@ -1,5 +1,5 @@
 ﻿using System;
-using WebApplication1;
+using WebApplication;
 
 namespace WebAppHost
 {

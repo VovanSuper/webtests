@@ -2,7 +2,7 @@
 using CoreTest;
 //using CoreTest;
 
-namespace ConsoleApp1
+namespace ConsoleApp
 {
    class Program
    {

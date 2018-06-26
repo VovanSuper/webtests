@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoreTest\CoreTest.csproj" />
+    <ProjectReference Include="..\CoreTest\SPMG.Lib.csproj" />
   </ItemGroup>
 
 </Project>

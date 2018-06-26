@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using HtmlAgilityPack;
@@ -37,28 +36,13 @@ namespace CoreTest
          var html = client.GetStringAsync(sportmasterUrl).Result;
 
          parser.LoadHtml(html);
-
-
-         //var links = document.SelectNodes("//script[@src]")
-         //    .Select(n => n.GetAttributeValue("src", String.Empty))
-         //    .Where(link => !String.IsNullOrWhiteSpace(link))
-         //    .Where(link => link.StartsWith("//"));
-
-
          var links = ExtractRealPriceValue(parser);
 
-         Debug.WriteLine("====");
-         Debug.WriteLine("Amount of Shorts: ");
-         Debug.WriteLine(links.Count());
-         Debug.WriteLine("======");
+         Console.WriteLine("====");
+         Console.WriteLine("Amount of Shorts: ");
+         Console.WriteLine(links.Count());
+         Console.WriteLine("======");
          return links;
-
-         //foreach (var link in links)
-         //{
-         //  Debug.WriteLine(link);
-         //}
-
-         //Debug.ReadLine();
       }
 
       private static IEnumerable<string> ExtractRealPriceValue(HtmlDocument document)

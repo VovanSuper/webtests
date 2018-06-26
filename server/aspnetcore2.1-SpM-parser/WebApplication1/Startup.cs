@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WebApplication1
+namespace WebApplication
 {
    public class Startup
    {
@@ -26,7 +26,9 @@ namespace WebApplication1
          {
             app.UseDeveloperExceptionPage();
          }
-         app.UseRouter(router =>
+
+         app
+            .UseRouter(router =>
          {
             router.MapGet("/", async (req, resp, routeData) =>
             {

@@ -45,7 +45,8 @@ Temporary Items
 **/node_modules/
 **/[Bb]in/
 **/[Oo]bj/
-
+**/[Bb]uild/
+**/[Tt]estOutput/
 # User-specific files
 *.suo
 *.user
