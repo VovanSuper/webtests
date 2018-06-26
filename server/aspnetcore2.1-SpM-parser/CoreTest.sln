@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp1\ConsoleApp.csproj", "{64DEAB48-98BE-497F-B791-F6169ADEB4F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{64DEAB48-98BE-497F-B791-F6169ADEB4F7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SPMG.Lib", "CoreTest\SPMG.Lib.csproj", "{D5622441-DB2C-4FE4-853A-19A22B41B16F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication", "WebApplication1\WebApplication.csproj", "{360F2BDD-1457-47A2-95EE-3082D814C25A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication", "WebApplication\WebApplication.csproj", "{360F2BDD-1457-47A2-95EE-3082D814C25A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppHost", "WebAppHost\WebAppHost.csproj", "{D4B7BCCF-8ACA-402A-A799-E8378A331CDB}"
 EndProject
