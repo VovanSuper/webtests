@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using CoreTest.Models;
 
 namespace CoreTest
 {
    public interface ISpGrabber
     {
-      IEnumerable<int> GetSportMasterPrices();
+      Task<IEnumerable<Item>> GetItemsAsync();
     }
 }

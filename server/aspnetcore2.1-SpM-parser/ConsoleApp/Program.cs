@@ -1,6 +1,5 @@
 ﻿using System;
 using CoreTest;
-//using CoreTest;
 
 namespace ConsoleApp
 {
@@ -8,10 +7,11 @@ namespace ConsoleApp
    {
       static void Main(string[] args)
       {
-         var links = new SportMasterGrabber().GetSportMasterPrices();
-         foreach (var link in links)
+         var items = (new SportMasterGrabber().GetItemsAsync()).Result;
+         //Console.WriteLine("{0,-20} {1,5}\n", "Name", "New Price");
+         foreach (var item in items)
          {
-            Console.WriteLine(link);
+            Console.WriteLine($"Item :   {item.Name}  --  {item.Price} ");
          }
          Console.WriteLine("Done");
          Console.ReadKey();

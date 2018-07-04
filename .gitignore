@@ -47,6 +47,7 @@ Temporary Items
 **/[Oo]bj/
 **/[Bb]uild/
 **/[Tt]estOutput/
+**/[Dd]rop/
 # User-specific files
 *.suo
 *.user
