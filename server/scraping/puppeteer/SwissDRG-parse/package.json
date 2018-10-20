@@ -17,7 +17,8 @@
     "lodash": "^4.17.11",
     "perseverance": "^1.0.18",
     "pm2": "^3.2.2",
-    "puppeteer": "^1.9.0"
+    "puppeteer": "^1.9.0",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "@types/dotenv": "^4.0.3",
