@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-pm": "pm2 start index.js --watch"
+    "test-pm": "pm2 start index.js --watch",
+    "batch": "node BatchProcessing/",
+    "clustered": "node HtmlPdfSaver/"
   },
   "keywords": [],
   "author": "",
