@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand navbar-light bg-light">
+  <div class="nav navbar-nav">
+    <a class="nav-item nav-link h5" href="#">Dashboard <span class="sr-only">(current)</span></a>
+    <a class="nav-item nav-link active">Uploader</a>
+    <a class="nav-item nav-link" (click)="logout()">Logout</a>
+  </div>
+</nav>
+
+
+
+
+<div class="jumbotron jumbotron-fluid text-center">
+  <div class="container">
+    <h1 class="display-3">Welcome! {{user?.name}}</h1>
+    <p class="lead">Upload video to Facebook Page directly! <b> ( {{user?.email}} )</b> </p>
+    <hr class="my-2">
+    <p>Please select a video to Upload...</p>
+    <p class="lead">
+      <input type="file" (onFileSelected)="selectFile($event)" name="photo" ng2FileSelect [uploader]="api.uploader" />
+
+
+    </p>
+    <div class="form-group">
+      <label for="">Facebook Page</label>
+      <select class="form-control" (change)="selectVal($event)">
+        <option>--</option>
+        <option *ngFor="let x of pages" value='{ "accessToken" : "{{x?.access_token}}" }'>{{x?.name}}</option>
+      </select>
+    </div>
+    <button class="btn btn-block btn-success" (click)="upload()" [disabled]="!api.uploader.getNotUploadedItems().length">UPLOAD</button>
+  </div>
+</div>
