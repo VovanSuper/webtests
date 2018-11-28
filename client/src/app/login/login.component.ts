@@ -18,8 +18,6 @@ export class LoginComponent {
 
   constructor(private zone: NgZone, private api: ApiService, private router: Router) { }
 
-
-
   userCreds;
   fbUser: any;
   firebaseUser;
@@ -33,13 +31,13 @@ export class LoginComponent {
         this.fbUser.id,
         this.userCreds.credential.accessToken,
         this.fbUser.email
-      ).subscribe(resp => {
+      ).subscribe(tokResp => {
         //long LiveToken Created! Get pages
-        console.log(`Login.cmp->loginFb():: LongTokFromSvc:: ${JSON.stringify(resp)}`);
-        let longLiveToken = resp && resp.json()['token'];
-        console.log(longLiveToken);
+        console.log(`Login.cmp->loginFb():: LongTokFromSvc:: ${JSON.stringify(tokResp)}`);
+        let { token } = tokResp;
+        console.log(token);
         localStorage.setItem('uid', this.firebaseUser.uid);
-        localStorage.setItem('token', longLiveToken);
+        localStorage.setItem('token', token);
         // this.api.createUser(this.firebaseUser.uid, {
         let user = {
           fbToken: this.userCreds.credential.accessToken,
@@ -59,7 +57,7 @@ export class LoginComponent {
 
       }, err => {
         console.error(err);
-      })
+      });
     });
 
   }

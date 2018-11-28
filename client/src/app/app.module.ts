@@ -12,7 +12,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 //firebase
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+// import { AngularFirestoreModule } from '@angular/fire/firestore';
 // import { AngularFireDatabaseModule, AngularFireDatabase } from '@angular/fire/database';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
@@ -31,12 +31,9 @@ import { LoginComponent } from './login/login.component';
     HttpModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    AngularFirestoreModule,
+    // AngularFirestoreModule,
     // AngularFireDatabaseModule,
     FileUploadModule
-  ],
-  providers: [
-    // AngularFireDatabase
   ],
   bootstrap: [AppComponent]
 })

@@ -20,10 +20,10 @@ export class DashboardComponent implements OnInit {
 
     if (this.user) {
       // this.api.getUser(uid).subscribe(res => {
-        this.getPages();
+      this.getPages();
       // })
     } else {
-      this.router.navigate(['/login'])
+      this.router.navigate(['/login']);
     }
   }
 
@@ -77,19 +77,18 @@ export class DashboardComponent implements OnInit {
       console.dir(response);
     },
       err => console.error(err)
-    )
+    );
   }
 
 
 
   getPages() {
     this.api.getPages(this.user.fbId, this.user.fbLongToken).subscribe(pages => {
-      this.pages = pages['data'];
+      this.pages = pages;
       console.log(`dashboard->getPages():: pages - ${JSON.stringify(this.pages)}`);
     },
       err => console.error(err)
-    )
-
+    );
   }
 
   logout() {

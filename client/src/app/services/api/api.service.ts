@@ -1,20 +1,18 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase';
 import { Http, ResponseType } from '@angular/http';
-// import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators/map'
-// import { pipe } from '@angular/core/src/render3';
-import { AngularFirestore } from '@angular/fire/firestore';
-// import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
+// import { AngularFirestore } from '@angular/fire/firestore';
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
-
-const uploadURL = 'http://localhost:3000/api/upload';
-const tokenURL = 'http://localhost:3000/api/get-token';
 const graphBaseUrl = 'https://graph.facebook.com/v3.2';
+
+const apiUriBase = 'http://localhost:3000/api';
+let uploadURL = `${apiUriBase}/upload`;
+let tokenURL = `${apiUriBase}/exchange-token`;
 
 
 @Injectable({
@@ -30,7 +28,7 @@ export class ApiService {
 
   constructor(
     private afAuth: AngularFireAuth,
-    private afs: AngularFirestore,
+    // private afs: AngularFirestore,
     // private afdb: AngularFireDatabase,
     private http: Http) {
     // this.itemsRef = afdb.list('UserData');
@@ -50,7 +48,11 @@ export class ApiService {
   // }
 
   uploadFormSimple(form: any) {
-    return this.http.post(uploadURL, form);
+    return this.http.post(uploadURL, form)
+      .pipe(
+        map(this.extractData),
+        catchError(this.handleError)
+      );
   }
 
   loginFb() {
@@ -69,11 +71,11 @@ export class ApiService {
 
   createUser(uid, data) {
     // await this.itemsRef.push(data);
-    return this.afs.doc('users/' + uid).set(data);
+    // return this.afs.doc('users/' + uid).set(data);
   }
 
   getUser(uid) {
-    return this.afs.doc('users/' + uid).valueChanges();
+    // return this.afs.doc('users/' + uid).valueChanges();
   }
 
   getLongLiveToken(userId, token, email) {
@@ -82,26 +84,29 @@ export class ApiService {
     // let localStoreToken = localStorage.getItem('token');
     // if (localStoreToken && localStoreToken.length > 0)
     //   return of(localStoreToken);
-    return this.http.post(tokenURL, { userId, token, email });
+    return this.http.post(tokenURL, { userId, token, email })
+      .pipe(
+        map(this.extractData),
+        catchError(this.handleError)
+      );
   }
 
   getPages(facebookUserId, longLiveToken) {
     return this.http.get(`${graphBaseUrl}/${facebookUserId}/accounts?access_token=${longLiveToken}`)
       .pipe(
-        map(this.extractData),
+        map(pages => pages['data']),
         catchError(this.handleError)
-      )
+      );
   }
 
 
   private getFbProvider() {
     return new firebase.auth.FacebookAuthProvider();
-
   }
 
   private extractData(res) {
-    let body = res.json();
-    console.log(`User pages:: ${JSON.stringify(body)}`)
+    let body = res && res.json();
+    console.log(`Extracted Server Resp Data:: ${JSON.stringify(body)}`)
     return body;
   }
 
@@ -109,7 +114,4 @@ export class ApiService {
     console.error(error.message || error);
     return throwError(error.message || error);
   }
-
-
-
 }

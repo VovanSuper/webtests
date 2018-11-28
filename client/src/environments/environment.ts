@@ -12,14 +12,7 @@ export const environment = {
     storageBucket: "sandbox-aymatic.appspot.com",
     messagingSenderId: "974843583143"
   }
-  // firebaseConfig: {
-  //   apiKey: "AIzaSyDR55tMJerUjt_PFok6hhsbxvisIvnRV_A",
-  //   authDomain: "coinhublogin.firebaseapp.com",
-  //   databaseURL: "https://coinhublogin.firebaseio.com",
-  //   projectId: "coinhublogin",
-  //   storageBucket: "coinhublogin.appspot.com",
-  //   messagingSenderId: "437338134957"
-  // }
+
 };
 
 /*
@@ -29,4 +22,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+import 'zone.js/dist/zone-error';  // Included with Angular CLI.
