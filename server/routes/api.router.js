@@ -1,5 +1,10 @@
 const express = require('express');
 const path = require('path');
+const multer = require('multer');
+
+
+const { fbUris, AdObjs, TEST_FB_CREDS } = require('../conf/base.conf');
+const { audiencesRulsSet } = require('../helpers/fb-biz-sdk.conf');
 
 const {
   createAdCampaign,
@@ -15,6 +20,18 @@ const {
   setUserToRTDB
 } = require('../helpers/functs');
 
+const {
+  baseGraphUri,
+  fbAdAccountId,
+  fbAdPixelId,
+  fbAdSecret,
+  fbappId,
+  fbappsecret,
+  reduri,
+  tokenRefrGraphUri,
+  videoGraphUri
+} = fbUris;
+
 const uploadDIR = path.join(process.cwd(), 'server/uploads');
 
 let storage = multer.diskStorage({
@@ -28,6 +45,7 @@ let storage = multer.diskStorage({
 let upload = multer({ storage });
 
 const router = express.Router();
+
 router.route('/test/camp-graph')
   .get((req, resp, next) => {
     // let adCampaign = account.createCampaign(
@@ -42,7 +60,7 @@ router.route('/exchange-token')
   .post((req, resp, next) => {
     let { userId, token, email } = req.body;
 
-    createLongToken(token, fbappsecret, reduri, fbappId)
+    createLongToken({ token, fbappsecret, reduri, fbappId })
       .then(({ token }) => {
         setUserToRTDB({ userId, email, token })
       })
@@ -116,3 +134,4 @@ router.route('/upload')
       }
     });
 
+module.exports.apiRouter = router;

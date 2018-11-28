@@ -1,7 +1,10 @@
-const { fbUris, AdObjs, TEST_FB_CREDS } = require('./conf/base.conf');
-const { audiencesRulsSet } = require('./helpers/fb-biz-sdk.conf');
+const fs = require('fs');
+const request = require('request-promise');
 
-const { ref } = require('./helpers/firebase-admin');
+// const { fbUris, AdObjs, TEST_FB_CREDS } = require('../conf/base.conf');
+// const { audiencesRulsSet } = require('./fb-biz-sdk.conf');
+
+const { ref } = require('./firebase-admin');
 
 let saveInsToRTDB = async ({ fbUserId, fbPageId, pageToken, pageName, id, insights }) => {
   await ref.root.child(fbUserId).push({
@@ -15,6 +18,7 @@ let saveInsToRTDB = async ({ fbUserId, fbPageId, pageToken, pageName, id, insigh
     'PostID': id,
     'METRICS': insights
   });
+  return { fbUserId, fbPageId, pageToken, pageName, id, insights };
 }
 
 let setUserToRTDB = async ({ userId, email, token }) => {
@@ -36,24 +40,24 @@ let getVideoData = async ({ video_id, ad_admin_token }) => {
 }
 
 
-let createLongToken = async (fbUserToken, secret, redUri, clientId) => {
+let createLongToken = async (token, fbappsecret, reduri, fbappId) => {
   let fbTokenOpts = {
     method: 'GET',
     uri: tokenRefrGraphUri,
     // uri: `https://graph.facebook.com/oauth/client_code`,
     qs: {
       grant_type: 'fb_exchange_token',
-      client_id: clientId,
-      client_secret: secret,
-      fb_exchange_token: fbUserToken,
+      client_id: fbappId,
+      client_secret: fbappsecret,
+      fb_exchange_token: token,
       //  access_token: fbUserToken
       // , redirect_uri: redUri
     }
   }
   const resp = await request(fbTokenOpts);
-  let token = resp && JSON.parse(resp)['access_token'];
+  let { access_token } = resp && JSON.parse(resp);
   console.log(`Exchanged LongLive Token:: \n   ${token}`);
-  return { token };
+  return { token: access_token };
 }
 
 let getVideoInsights = async (vidId, access_token, since, until) => {
