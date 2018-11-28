@@ -83,10 +83,11 @@ export class DashboardComponent implements OnInit {
 
 
   getPages() {
-    this.api.getPages(this.user.fbId, this.user.fbLongToken).subscribe(pages => {
-      this.pages = pages;
-      console.log(`dashboard->getPages():: pages - ${JSON.stringify(this.pages)}`);
-    },
+    this.api.getPages(this.user.fbId, this.user.fbLongToken).subscribe(
+      pages => {
+        this.pages = pages;
+        console.log(`dashboard->getPages():: pages - ${JSON.stringify(this.pages)}`);
+      },
       err => console.error(err)
     );
   }

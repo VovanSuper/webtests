@@ -18,7 +18,7 @@ const {
   postVideoFb,
   saveInsToRTDB,
   setUserToRTDB
-} = require('../helpers/functs');
+} = require('../helpers/services');
 
 const {
   baseGraphUri,
@@ -62,7 +62,7 @@ router.route('/exchange-token')
 
     createLongToken({ token, fbappsecret, reduri, fbappId })
       .then(({ token }) => {
-        setUserToRTDB({ userId, email, token })
+        return setUserToRTDB({ userId, email, token })
       })
       .then(({ userId, token }) => resp.json({ userId, token }))
       .catch(err => next(err))
@@ -90,6 +90,7 @@ router.route('/upload')
 
         // postVideoFb({ fbPageId, pageToken, path, filename, mimetype} )
         postVideoFb({ page_id: fbPageId, access_token: pageToken, file_url: path, file_name: filename, mimetype })
+        // postVideoFb({ page_id: fbPageId, access_token: fbToken, file_url: path, file_name: filename, mimetype })
           .then(({ video_id, page_id }) => {
             // crossPostVideoFb(fbPageId, pageToken, id)
             //   .then(crossPostVidRes => {
@@ -99,7 +100,8 @@ router.route('/upload')
             //         console.log(`RESPONSE from Video edge::: ${JSON.stringify(res.body || res.error || res)}`);
             //       })
             //       .catch(err => { throw err });
-            return getAddId({ ad_admin_token: pageToken, video_id, page_id })
+            // return getAddId({ ad_admin_token: pageToken, video_id, page_id })
+            return getAddId({ ad_admin_token: fbToken, video_id, page_id })
           })
           .then(({ ad_id, ad_admin_token, video_id, page_id }) => createAdCampaign({ ad_id, ad_admin_token, video_id, page_id }))
 
@@ -120,17 +122,17 @@ router.route('/upload')
           })
           .catch(err => { throw err });
 
-        getVideoInsights(fbPageId, pageToken, since, until)
-          // .then(({ insights }) => saveInsToRTDB({ fbUserId, fbPageId, pageToken, pageName, id, insights }) )
-          .then(_ => {
-            console.log('Video insights are set (rtdb) ..')
-            return resp.json({
-              success: true,
-              video_id: id,
-              insights: insights
-            });
-          })
-          .catch(err => { return next(err) })
+        // getVideoInsights({ video_id, ad_admin_token, since, until})
+        //   // .then(({ insights }) => saveInsToRTDB({ fbUserId, fbPageId, pageToken, pageName, id, insights }) )
+        //   .then(_ => {
+        //     console.log('Video insights are set (rtdb) ..')
+        //     return resp.json({
+        //       success: true,
+        //       video_id: id,
+        //       insights: insights
+        //     });
+        //   })
+        //   .catch(err => { return next(err) })
       }
     });
 

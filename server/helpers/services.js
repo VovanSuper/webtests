@@ -3,8 +3,22 @@ const request = require('request-promise');
 
 // const { fbUris, AdObjs, TEST_FB_CREDS } = require('../conf/base.conf');
 // const { audiencesRulsSet } = require('./fb-biz-sdk.conf');
+const { fbUris, AdObjs, TEST_FB_CREDS } = require('../conf/base.conf');
+
 
 const { ref } = require('./firebase-admin');
+
+const {
+  baseGraphUri,
+  fbAdAccountId,
+  fbAdPixelId,
+  fbAdSecret,
+  fbappId,
+  fbappsecret,
+  reduri,
+  tokenRefrGraphUri,
+  videoGraphUri
+} = fbUris;
 
 let saveInsToRTDB = async ({ fbUserId, fbPageId, pageToken, pageName, id, insights }) => {
   await ref.root.child(fbUserId).push({
@@ -40,7 +54,7 @@ let getVideoData = async ({ video_id, ad_admin_token }) => {
 }
 
 
-let createLongToken = async (token, fbappsecret, reduri, fbappId) => {
+let createLongToken = async ({ token, fbappsecret, reduri, fbappId }) => {
   let fbTokenOpts = {
     method: 'GET',
     uri: tokenRefrGraphUri,
@@ -60,11 +74,11 @@ let createLongToken = async (token, fbappsecret, reduri, fbappId) => {
   return { token: access_token };
 }
 
-let getVideoInsights = async (vidId, access_token, since, until) => {
+let getVideoInsights = async ({ video_id, access_token, since, until }) => {
   const insightsOpts = {
     method: 'GET',
     // uri: `https://graph.facebook.com/v3.2/${id}/insights?metric=page_positive_feedback_by_type&since=${since}&until=${until}&access_token=${access_token}`,
-    uri: `${videoGraphUri}/${vidId}/insights?metric=page_video_views_autoplayed&page_video_views_click_to_play&page_video_views_unique&page_video_repeat_views&page_video_complete_views_30s&page_video_views&since=${since}&until=${until}&access_token=${access_token}`,
+    uri: `${videoGraphUri}/${video_id}/insights?metric=page_video_views_autoplayed&page_video_views_click_to_play&page_video_views_unique&page_video_repeat_views&page_video_complete_views_30s&page_video_views&since=${since}&until=${until}&access_token=${access_token}`,
     // uri: `https://graph.facebook.com/v3.2/${id}/insights?metric=post_video_complete_views_organic&access_token=${access_token}`,
   };
   const insRet = await request(insightsOpts);
@@ -121,10 +135,10 @@ let createAdSet = async ({ ad_id, campaign_id, ad_admin_token, video_id, page_id
     formData: {
       name: 'Test Ad set',
       billing_event: 'IMPRESSIONS',
-      bid_amount: '100',
-      daily_budget: '1000',
+      bid_amount: 130,
+      daily_budget: 100,
       campaign_id: campaign_id,
-      targeting: JSON.stringify({ "geo_locations": { "countries": ["RU"] }, "publisher_platforms": ["facebook"] }),
+      targeting: JSON.stringify({ "geo_locations": { "countries": ["US"] }, "publisher_platforms": ["facebook"] }),
       start_time: (new Date(Date.now())).toLocaleDateString('ru'),
       end_time: new Date((new Date(Date.now()).setMonth((new Date()).getMonth() + 1))).toLocaleDateString('ru'),
       optimization_goal: 'REACH'

@@ -94,6 +94,7 @@ export class ApiService {
   getPages(facebookUserId, longLiveToken) {
     return this.http.get(`${graphBaseUrl}/${facebookUserId}/accounts?access_token=${longLiveToken}`)
       .pipe(
+        map(this.extractData),
         map(pages => pages['data']),
         catchError(this.handleError)
       );
