@@ -28,18 +28,18 @@
 //   }
 // };
 
-const audiencesRulsSet = (fbAdPixelId, UrlOfOutputJson) => {
+let audiencesRulsSet = ({ ad_pixel_id, ad_pixel_id }) => {
   return {
     'rule':
     {
       'inclusions': {
         'operator': 'or', 'rules': [{
-          'event_sources': [{ 'id': `${fbAdPixelId}`, 'type': 'pixel' }],
+          'event_sources': [{ 'id': `${ad_pixel_id}`, 'type': 'pixel' }],
           'retention_seconds': 8400,
           'filter': {
             'operator': 'and',
             'filters':
-              [{ 'field': 'url', 'operator': 'i_contains', 'value': `${UrlOfOutputJson}` }]
+              [{ 'field': 'url', 'operator': 'i_contains', 'value': `${ad_pixel_id}` }]
           }
         }]
       }

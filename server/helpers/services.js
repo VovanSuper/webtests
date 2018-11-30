@@ -1,8 +1,7 @@
 const fs = require('fs');
 const request = require('request-promise');
 
-// const { fbUris, AdObjs, TEST_FB_CREDS } = require('../conf/base.conf');
-// const { audiencesRulsSet } = require('./fb-biz-sdk.conf');
+const { audiencesRulsSet } = require('./fb-biz-sdk.conf');
 const { fbUris, AdObjs, TEST_FB_CREDS } = require('../conf/base.conf');
 
 
@@ -170,7 +169,7 @@ let createAdCreative = ({ ad_id, id, picture, page_id, ad_admin_token }) => {
   request.debug = this;
   return request({
     method: 'POST',
-    uri: `https://graph.facebook.com/v3.2/${ad_id}/adcreatives?access_token=${ad_admin_token}`,
+    uri: `https://graph.facebook.com/v3.2/${ad_id}/adcreatives`,
     formData: {
       object_story_spec: JSON.stringify({
         page_id: page_id,
@@ -180,9 +179,12 @@ let createAdCreative = ({ ad_id, id, picture, page_id, ad_admin_token }) => {
           image_url: picture
         }
       })
+    },
+    qs: {
+      access_token: ad_admin_token
     }
   })
-    .finally(() => request.debug = false)
+    .finally(() => { request.debug = false })
 }
 
 module.exports = {

@@ -64,7 +64,7 @@ export class ApiService {
     provider.addScope('pages_show_list');
     provider.addScope('read_insights');
     provider.addScope('ads_read');
-    // provider.addScope('ads_management');
+    provider.addScope('ads_management');
     return this.afAuth.auth.signInWithPopup(provider);
   }
 
